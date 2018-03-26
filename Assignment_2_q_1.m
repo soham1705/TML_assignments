@@ -30,6 +30,8 @@ d=randi([0,1],nodes,1);
 
 psi=zeros(nodes,iters);
 
+%atc
+
 for k=1:nodes
     for i=1:iters
         neighbour_sum=0;
@@ -57,9 +59,28 @@ for k=1:nodes
     end
 end
 
-    
+%cta    
 
-
+for k=1:nodes
+    for i=1:iters
+        if(i>1)
+            for l=1:nodes
+                if(neighbours(k,l)==1)
+                    psi(k,i-1)=psi(k,i-1)+a(l,k)*w(l,i-1);
+                end
+            end
+            neighbour_sum=0;
+            for l=1:nodes
+                if(neighbours(k,l)==1)
+                    neighbour_sum=neighbour_sum+c(l,k)*u(l,i)*(d(l)-u(l,i)*psi(k,i-1));
+                end
+            end
+            w(k,i)=psi(k,i-1)+mu*neighbour_sum;
+        elseif(i==1)
+            w(k,i)=0;
+        end
+    end
+end
 
 
 
