@@ -1,8 +1,5 @@
 import matplotlib.pyplot as plt
-import matplotlib as mpl
 import pandas as pd
-import seaborn as sns
-import sklearn
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
@@ -26,6 +23,9 @@ reg = LinearRegression()
 X_ = tf[['SRR','FRR','SUR','ERR']]
 Y_ = tf['RiskScore']
 
+train_errors=[]
+test_errors=[]
+
 for i in range(1,7):
     print "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
     print "%%%% Multivariate Linear Regression Of Order ",i," %%%%%%%%%"
@@ -39,13 +39,27 @@ for i in range(1,7):
 
     X1 = poly.fit_transform(X_)
     Y_p = reg.predict(X1)
-    print Y_p.shape
-    print Y.shape
-    print Y_.shape
 
     #print "Coefficients: ",reg.coef_
+    plt.plot()
+    plt.show()
     train_err = mean_squared_error(Y, Y_p_t)
     test_err = mean_squared_error(Y_, Y_p)
+    train_errors.append(train_err)
+    test_errors.append(test_err)
     print "Train Error: ",  train_err
     print "Test Error: ", test_err
     print "\n\n\n\n\n"
+
+plt.title('Training errors')
+plt.ylabel('MMSE')
+plt.xlabel('Degree')
+plt.plot(np.arange(1,7),train_errors)
+plt.savefig('Training errors.png')
+plt.clf()
+
+plt.title('Testing errors')
+plt.ylabel('MMSE')
+plt.xlabel('Degree')
+plt.plot(np.arange(1,7),test_errors)
+plt.savefig('Testing errors.png')
