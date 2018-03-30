@@ -41,8 +41,6 @@ for i in range(1,7):
     Y_p = reg.predict(X1)
 
     #print "Coefficients: ",reg.coef_
-    plt.plot()
-    plt.show()
     train_err = mean_squared_error(Y, Y_p_t)
     test_err = mean_squared_error(Y_, Y_p)
     train_errors.append(train_err)
